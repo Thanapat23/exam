@@ -9,6 +9,7 @@ class Register extends Component{
         this.state = {
             idkey:"",
             firstname:"",
+            email:localStorage.getItem('email'),
             lastname:""
         }
         this.handleChang = this.handleChang.bind(this);
@@ -24,15 +25,17 @@ class Register extends Component{
         let data = {
             idkey:this.state.idkey,
             firstname:this.state.firstname,
+            email:this.state.email,
             lastname:this.state.lastname
         }
         axios.post(url,data)
         this.setState({
             idkey:"",
             firstname:"",
+            email:"",
             lastname:""
         });
-        this.props.history.push('/Showdata');
+        this.props.history.push('./Showdata');
     }
 
     render() {
@@ -44,16 +47,16 @@ class Register extends Component{
                 </div>
                 <form className="container">
                     <div className="form-group">
+                        <label className="text-white"  htmlFor="id">ID</label>
+                        <input type="text" className="form-control" size="10" id="idkey" onChange={this.handleChang} value={this.state.idkey}/>
+                    </div>                   
+                    <div className="form-group">
                         <label className="text-white" >First Name</label>
                         <input type="text" className="form-control" id="firstname" onChange={this.handleChang} value={this.state.firstname}/>
                     </div>
                     <div className="form-group">
                         <label className="text-white"  >Last Name</label>
                         <input type="text" className="form-control" id="lastname" onChange={this.handleChang} value={this.state.lastname}/>
-                    </div>
-                    <div className="form-group">
-                        <label className="text-white"  htmlFor="id">Id</label>
-                        <input type="text" className="form-control" size="10" id="idkey" onChange={this.handleChang} value={this.state.idkey}/>
                     </div>
                     <button type="button" className="btn btn-primary" onClick={this.handleClicked}>Submit</button>
                 </form>
