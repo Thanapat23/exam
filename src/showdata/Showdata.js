@@ -12,8 +12,10 @@ export default class Showdata extends Component{
             list:[],
             idkey:"",
             firstname:"",
+            lastname:"",
+            district:"",
             email:"",
-            time:""
+            time:"",
         }
         this.handleChang = this.handleChang.bind(this);
         this.handleClicked = this.handleClicked.bind(this);
@@ -58,6 +60,7 @@ export default class Showdata extends Component{
             idkey:user.id,
             firstname:user.firstname,
             lastname:user.lastname,
+            district:user.district,
             email:user.email,
             time:user.time
         })
@@ -71,6 +74,7 @@ export default class Showdata extends Component{
             idkey:this.state.idkey,
             firstname:this.state.firstname,
             lastname:this.state.lastname,
+            district:this.state.district,
             email:this.state.email,
             times:this.state.time
         }
@@ -83,6 +87,7 @@ export default class Showdata extends Component{
             idkey:this.state.idkey,
             firstname:this.state.firstname,
             lastname:this.state.lastname,
+            district:this.state.district,
             email:this.state.email,
             time:this.state.time
         }
@@ -91,6 +96,7 @@ export default class Showdata extends Component{
             idkey:"",
             firstname:"",
             lastname:"",
+            district:"",
             email:"",
             time:""
         });
@@ -111,8 +117,11 @@ export default class Showdata extends Component{
                             <th>ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
+                            <th>District</th>
                             <th>User Email</th>
                             <th>Time</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -123,6 +132,7 @@ export default class Showdata extends Component{
                                             <td>{user.id}</td>
                                             <td>{user.firstname}</td>
                                             <td>{user.lastname}</td>
+                                            <td>{user.district_name}</td>
                                             <td>{user.email}</td>
                                             <td>{user.time}</td>
                                             <td><button type="button" class="btn btn-warning" onClick={()=>this.call(user)}>Edit</button></td>
@@ -147,6 +157,14 @@ export default class Showdata extends Component{
                                                             <label>lastname:</label>
                                                             <input type="text" className="form-control" id="lastname" onChange={this.handleChang} value={this.state.lastname}/>
                                                         </div>
+                                                        {/* <div>
+                                                             <select className="form-group" id="district" value={this.state.district} onChange={this.handleChang} required>
+                                                                <option value="">Select District</option>
+                                                                    {this.state.data.map(item => {
+                                                                    return <option value={item.id}>{item.district_name}</option>
+                                                                     })}
+                                                            </select>
+                                                        </div> */}
                                                         <button type="button" className="btn btn-primary" onClick={this.handleClicked}>Submit</button>
                                                     </form>
                                                 </Modal>
