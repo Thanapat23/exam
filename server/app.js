@@ -18,15 +18,15 @@ app.use(body());
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 const db = mysql.createConnection({
-    host: '172.28.80.1',
+    host: '172.17.112.1',
     user: 'Benz',
-    password: '1234',
-    database: 'testing'
+    password: '3743',
+    database: 'final'
 });
 // show data
 app.get('/data', function(req,res){
     console.log("Hello in /data ");
-    let sql = 'SELECT * FROM users;';
+    let sql = 'SELECT * FROM local;';
     db.query(sql, (err, result)=>{
         if(err) throw err;
         console.log(result);
@@ -37,7 +37,7 @@ app.get('/data', function(req,res){
 
 //delete
 app.put('/delete', function(req, res) {
-    var sql = 'DELETE FROM users WHERE id = ?';
+    var sql = 'DELETE FROM local WHERE id = ?';
     db.query(sql,[req.body.idkey],function (error, results) {
         if(error) throw error;
         res.send(JSON.stringify(results));
@@ -46,7 +46,7 @@ app.put('/delete', function(req, res) {
 
 //edit
 app.put('/data', function(req, res) {
-    var sql = 'UPDATE users SET firstname= ? , lastname = ? WHERE id = ?';
+    var sql = 'UPDATE local SET firstname = ? , lastname = ? WHERE id = ?';
     db.query(sql,[req.body.firstname,req.body.lastname,req.body.idkey],function (error, results) {
         if(error) throw error;
         res.send(JSON.stringify(results));
@@ -59,9 +59,10 @@ app.post('/data', function(req, res){
     let data = {
         id:req.body.idkey,
         firstname:req.body.firstname,
-        lastname:req.body.lastname
+        lastname:req.body.lastname,
+        email:req.body.email
     };
-    let sql = 'INSERT INTO users SET ?';
+    let sql = 'INSERT INTO local SET ?';
     db.query(sql, data, (err, result)=>{
         if(err){
             console.log(err);
