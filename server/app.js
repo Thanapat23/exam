@@ -26,7 +26,19 @@ const db = mysql.createConnection({
 // show data
 app.get('/data', function(req,res){
     console.log("Hello in /data ");
-    let sql = 'SELECT * FROM local;';
+    let sql = 'SELECT l.*,c.district_name FROM local l, cmdistrict c WHERE l.district_id = c.id;';
+    db.query(sql, (err, result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.json(result);
+    });
+    console.log("after query");
+});
+
+//district
+app.get('/cmdistrict', function(req,res){
+    console.log("Hello in /data ");
+    let sql = 'SELECT * FROM cmdistrict;';
     db.query(sql, (err, result)=>{
         if(err) throw err;
         console.log(result);
@@ -60,6 +72,7 @@ app.post('/data', function(req, res){
         id:req.body.idkey,
         firstname:req.body.firstname,
         lastname:req.body.lastname,
+        district_id:req.body.district,
         email:req.body.email
     };
     let sql = 'INSERT INTO local SET ?';
