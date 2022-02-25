@@ -86,7 +86,7 @@ export default class Facebook extends Component {
         >
           <img src={this.state.picture} alt={this.state.name} />
           <h2>Welcome {this.state.name}</h2>
- 	  email: {this.state.email}
+ 	         email: {this.state.email}
           <div className="my-3"><a className="btn btn-danger" href="/" onClick={this.logoutFacebook}>Logout</a></div>
           <BrowserRouter>
             <br /><br /><div className="btn-group btn-group-lg"><ButtonRegister /><ButtonShowdata /></div>
