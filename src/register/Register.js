@@ -41,7 +41,9 @@ class Register extends Component {
             district: "",
             email: ""
         });
-        this.props.history.push('./Showdata');
+        setTimeout(() => {
+            this.props.history.push('./Showdata'); 
+        }, 100);    
     }
 
     componentDidMount() {
