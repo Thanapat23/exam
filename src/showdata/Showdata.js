@@ -160,7 +160,7 @@ export default class Showdata extends Component {
                                 </div>
                                 <div>
                                     <select className="form-group" id="district" value={this.state.district} onChange={this.handleChang} required>
-                                        <option value="">Select District</option>
+                                        <option value="">Select District CNX</option>
                                         {this.state.datadistrict.map(user => {
                                             return <option value={user.id}>{user.district_name}</option>
                                         })}
