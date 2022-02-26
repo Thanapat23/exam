@@ -1,21 +1,22 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import Modal from 'react-awesome-modal';
 import './Showdata.css';
 //import '../../server/app';
-import {ip,port} from "../setIP/setting";
+import { ip, port } from "../setIP/setting";
 
-export default class Showdata extends Component{
+export default class Showdata extends Component {
     constructor() {
         super();
-        this.state ={
-            list:[],
-            idkey:"",
-            firstname:"",
-            lastname:"",
-            district:"",
-            email:"",
-            time:"",
+        this.state = {
+            list: [],
+            idkey: "",
+            firstname: "",
+            lastname: "",
+            district: "",
+            email: "",
+            time: "",
+            datadistrict: []
         }
         this.handleChang = this.handleChang.bind(this);
         this.handleClicked = this.handleClicked.bind(this);
@@ -32,148 +33,144 @@ export default class Showdata extends Component{
             .then(res => res.json())
             .then(list => this.setState({ list }))
         console.log("after fetch data");
+
+        console.log("before fetch cmdistrict");
+        fetch('/cmdistrict')
+            .then(res => res.json())
+            .then(list => this.setState({ datadistrict: list }))
+        console.log("after fetch cmdistrict");
     }
 
-    onDelete=(user)=>{
+    onDelete = (user) => {
         let url = `https://localhost:3000/delete`;
         let data = {
-            idkey:user.id
+            idkey: user.id
         }
-        axios.put(url,data)
-        setTimeout(()=>{this.componentDidMount()},1)
+        axios.put(url, data)
+        setTimeout(() => { this.componentDidMount() }, 1)
     }
 
     openModal() {
         this.setState({
-            visible : true
+            visible: true
         });
 
     }
     closeModal() {
         this.setState({
-            visible : false
+            visible: false
         });
     }
-    call=(user)=>{
+    call = (user) => {
         this.openModal();
         this.setState({
-            idkey:user.id,
-            firstname:user.firstname,
-            lastname:user.lastname,
-            district:user.district,
-            email:user.email,
-            time:user.time
+            idkey: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            district: user.district_id,
+            email: user.email,
+            time: user.time
         })
     }
     handleChang = (e) => {
         this.setState({
             [e.target.id]: e.target.value
         });
-        let url = `https://localhost:3000/data`;
-        let data = {
-            idkey:this.state.idkey,
-            firstname:this.state.firstname,
-            lastname:this.state.lastname,
-            district:this.state.district,
-            email:this.state.email,
-            times:this.state.time
-        }
-        axios.put(url,data)
     }
 
-    handleClicked(){
+    handleClicked() {
         let url = `https://localhost:3000/data`;
         let data = {
-            idkey:this.state.idkey,
-            firstname:this.state.firstname,
-            lastname:this.state.lastname,
-            district:this.state.district,
-            email:this.state.email,
-            time:this.state.time
+            idkey: this.state.idkey,
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            district_id: this.state.district,
+            email: this.state.email,
+            time: this.state.time
         }
-        axios.put(url,data)
+        axios.put(url, data)
         this.setState({
-            idkey:"",
-            firstname:"",
-            lastname:"",
-            district:"",
-            email:"",
-            time:""
+            idkey: "",
+            firstname: "",
+            lastname: "",
+            district: "",
+            email: "",
+            time: ""
         });
-	this.closeModal();
-        setTimeout(()=>{this.componentDidMount()},1)
+        this.closeModal();
+        setTimeout(() => { this.componentDidMount() }, 1)
     }
     render() {
-        let {list} = this.state;
+        let { list } = this.state;
 
         return (
             <div className="App">
-                <h2 className="my-4">Users<br/></h2>
-                <hr/>
+                <h2 className="my-4">Users<br /></h2>
+                <hr />
                 <div className="container p-3 my-3 bg-dark text-white">
                     <table className="table table-dark">
                         <thead>
                             <tr>
-                            <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>District</th>
-                            <th>User Email</th>
-                            <th>Time</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                                <th>ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>District</th>
+                                <th>User Email</th>
+                                <th>Time</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                                {list.map((user) =>{
-                                    return(
-                                        <tr>
+                            {list.map((user) => {
+                                return (
+                                    <tr>
 
-                                            <td>{user.id}</td>
-                                            <td>{user.firstname}</td>
-                                            <td>{user.lastname}</td>
-                                            <td>{user.district_name}</td>
-                                            <td>{user.email}</td>
-                                            <td>{user.time}</td>
-                                            <td><button type="button" class="btn btn-warning" onClick={()=>this.call(user)}>Edit</button></td>
-                                            <td><button type="button" class="btn btn-danger"  onClick={()=>this.onDelete(user)}>Delete</button></td>
-
-                                            <div className="box">
-                                                <Modal visible={this.state.visible}
-                                                       width="1200"
-                                                       height="600"
-                                                       effect="fadeInUp"
-                                                       onClickAway={() => this.closeModal()}
-                                                >
-                                                    <form className="container" id='form'>
-                                                        <div className="form-group">
-                                                            <h3><label htmlFor="id">ID:{this.state.idkey}<br/></label></h3>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>firstname:</label>
-                                                            <input type="text" className="form-control" id="firstname" onChange={this.handleChang} value={this.state.firstname}/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>lastname:</label>
-                                                            <input type="text" className="form-control" id="lastname" onChange={this.handleChang} value={this.state.lastname}/>
-                                                        </div>
-                                                        {/* <div>
-                                                             <select className="form-group" id="district" value={this.state.district} onChange={this.handleChang} required>
-                                                                <option value="">Select District</option>
-                                                                    {this.state.data.map(item => {
-                                                                    return <option value={item.id}>{item.district_name}</option>
-                                                                     })}
-                                                            </select>
-                                                        </div> */}
-                                                        <button type="button" className="btn btn-primary" onClick={this.handleClicked}>Submit</button>
-                                                    </form>
-                                                </Modal>
-                                            </div>
-                                        </tr>
-                                    )})}
+                                        <td>{user.id}</td>
+                                        <td>{user.firstname}</td>
+                                        <td>{user.lastname}</td>
+                                        <td>{user.district_name}</td>
+                                        <td>{user.email}</td>
+                                        <td>{user.time}</td>
+                                        <td><button type="button" class="btn btn-warning" onClick={() => this.call(user)}>Edit</button></td>
+                                        <td><button type="button" class="btn btn-danger" onClick={() => this.onDelete(user)}>Delete</button></td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
-                </div><br/>
+                    <div className="box">
+                        <Modal visible={this.state.visible}
+                            width="1200"
+                            height="600"
+                            effect="fadeInUp"
+                            onClickAway={() => this.closeModal()}
+                        >
+                            <form className="container" id='form'>
+                                <div className="form-group">
+                                    <h3><label htmlFor="id">ID:{this.state.idkey}<br /></label></h3>
+                                </div>
+                                <div className="form-group">
+                                    <label>firstname:</label>
+                                    <input type="text" className="form-control" id="firstname" onChange={this.handleChang} value={this.state.firstname} />
+                                </div>
+                                <div className="form-group">
+                                    <label>lastname:</label>
+                                    <input type="text" className="form-control" id="lastname" onChange={this.handleChang} value={this.state.lastname} />
+                                </div>
+                                <div>
+                                    <select className="form-group" id="district" value={this.state.district} onChange={this.handleChang} required>
+                                        <option value="">Select District</option>
+                                        {this.state.datadistrict.map(user => {
+                                            return <option value={user.id}>{user.district_name}</option>
+                                        })}
+                                    </select>
+                                </div>
+                                <button type="button" className="btn btn-primary" onClick={this.handleClicked}>Submit</button>
+                            </form>
+                        </Modal>
+                    </div>
+                </div><br />
             </div>
         );
     }
